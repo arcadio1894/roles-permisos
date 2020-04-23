@@ -26,7 +26,7 @@ class CourseController extends Controller
      */
     public function create()
     {
-        //
+        return view('courses.create');
     }
 
     /**
@@ -37,7 +37,10 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $course = Course::create($request->all());
+
+        return redirect()->route('courses.index')
+            ->with('info', 'Curso guardado con éxito');
     }
 
     /**
@@ -46,9 +49,11 @@ class CourseController extends Controller
      * @param  \App\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function show(Course $course)
+    public function show($id)
     {
-        //
+        $course = Course::find($id);
+
+        return view('courses.show', compact('course'));
     }
 
     /**
@@ -57,9 +62,11 @@ class CourseController extends Controller
      * @param  \App\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function edit(Course $course)
+    public function edit($id)
     {
-        //
+        $course = Course::find($id);
+
+        return view('courses.edit', compact('course'));
     }
 
     /**
@@ -69,9 +76,13 @@ class CourseController extends Controller
      * @param  \App\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Course $course)
+    public function update(Request $request, $id)
     {
-        //
+        $course = Course::find($id);
+        $course->update($request->all());
+
+        return redirect()->route('courses.edit', $course->id)
+            ->with('info', 'Curso guardado con éxito');
     }
 
     /**
@@ -80,8 +91,10 @@ class CourseController extends Controller
      * @param  \App\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Course $course)
+    public function destroy($id)
     {
-        //
+        $course = Course::find($id)->delete();
+
+        return back()->with('info', 'Eliminado correctamente');
     }
 }

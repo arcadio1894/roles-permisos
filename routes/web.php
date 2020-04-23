@@ -17,7 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+// TODO: Cambiar esto
+Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -58,6 +59,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('users/{user}/edit', 'UserController@edit')->name('users.edit')
         ->middleware('permission:users.edit');
+    // TODO: Agregar
+    Route::post('users/store', 'UserController@store')->name('users.store')
+        ->middleware('permission:users.create');
+    Route::post('users/store', 'UserController@store')->name('users.create')
+        ->middleware('permission:users.create');
+
     //Courses
     Route::post('courses/store', 'CourseController@store')->name('courses.store')
         ->middleware('permission:courses.create');
@@ -79,4 +86,13 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('courses/{Course}/edit', 'CourseController@edit')->name('courses.edit')
         ->middleware('permission:courses.edit');
+
+    //Teachers and students
+    Route::get('teachers', 'UserController@teachers')->name('teachers.index')
+        ->middleware('permission:teachers.index');
+
+    Route::get('students', 'UserController@students')->name('students.index')
+        ->middleware('permission:students.index');
+
+
 });

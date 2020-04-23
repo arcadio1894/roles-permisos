@@ -50,6 +50,16 @@
                             <a class="nav-link" href="{{ route('courses.index') }}">Cursos</a>
                         </li>
                         @endcan
+                        @can('teachers.index')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('teachers.index') }}">Profesores</a>
+                            </li>
+                        @endcan
+                        @can('students.index')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('students.index') }}">Alumnos</a>
+                            </li>
+                        @endcan
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -89,6 +99,17 @@
         </nav>
 
         <main class="py-4">
+            @if (session('info'))
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <div class="alert alert-success">
+                                {{ session('info') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
             @yield('content')
         </main>
     </div>
